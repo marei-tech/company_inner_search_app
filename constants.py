@@ -44,8 +44,9 @@ APP_BOOT_MESSAGE = "アプリが起動されました。"
 MODEL = "gpt-4o-mini"
 TEMPERATURE = 0.5
 # 課題2：マジックナンバーの定数化
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 50
+# 課題6：チャンクサイズとオーバーラップの調整
+CHUNK_SIZE = 600
+CHUNK_OVERLAP = 60
 NUM_RETRIEVED_DOCS = 5
 
 # ==========================================

@@ -16,6 +16,8 @@ import streamlit as st
 from docx import Document
 from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import CharacterTextSplitter
+# 課題6：必要なライブラリをインポート
+from langchain.schema import Document as LangChainDocument
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 import constants as ct
@@ -219,7 +221,19 @@ def file_load(path, docs_all):
         # ファイルの拡張子に合ったdata loaderを使ってデータ読み込み
         loader = ct.SUPPORTED_EXTENSIONS[file_extension](path)
         docs = loader.load()
-        docs_all.extend(docs)
+        
+        # 課題6：CSVファイルの場合は全行を1つのドキュメントに統合
+        if file_extension == ".csv" and docs:
+            # 全行の内容を結合
+            combined_content = "\n".join([doc.page_content for doc in docs])
+            # 新しい統合ドキュメントを作成
+            unified_doc = LangChainDocument(
+                page_content=combined_content,
+                metadata={"source": path}
+            )
+            docs_all.append(unified_doc)
+        else:
+            docs_all.extend(docs)
 
 
 def adjust_string(s):
