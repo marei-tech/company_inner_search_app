@@ -162,7 +162,8 @@ def display_search_llm_response(llm_response):
         # ユーザー入力値と最も関連性が高いメインドキュメントのありかを表示
         # ==========================================
         # LLMからのレスポンス（辞書）の「context」属性の中の「0」に、最も関連性が高いドキュメント情報が入っている
-        main_file_path = llm_response["context"][0].metadata["source"]
+        # 課題4：ファイルパスの表示を「\」から「/」に変更
+        main_file_path = llm_response["context"][0].metadata["source"].replace("\\", "/")
 
         # 補足メッセージの表示
         main_message = "入力内容に関する情報は、以下のファイルに含まれている可能性があります。"
@@ -173,9 +174,11 @@ def display_search_llm_response(llm_response):
         # ページ番号が取得できた場合のみ、ページ番号を表示（ドキュメントによっては取得できない場合がある）
         if "page" in llm_response["context"][0].metadata:
             # ページ番号を取得
-            main_page_number = llm_response["context"][0].metadata["page"]
+            # 課題4：人間が読みやすいように+1
+            main_page_number = llm_response["context"][0].metadata["page"] + 1
             # 「メインドキュメントのファイルパス」と「ページ番号」を表示
-            st.success(f"{main_file_path}", icon=icon)
+            # 課題4：ページ番号の表示
+            st.success(f"{main_file_path}(ページNo.{main_page_number})", icon=icon)
         else:
             # 「メインドキュメントのファイルパス」を表示
             st.success(f"{main_file_path}", icon=icon)
@@ -192,7 +195,8 @@ def display_search_llm_response(llm_response):
         # 「source_documents」内のリストの2番目以降をスライスで参照（2番目以降がなければfor文内の処理は実行されない）
         for document in llm_response["context"][1:]:
             # ドキュメントのファイルパスを取得
-            sub_file_path = document.metadata["source"]
+            # 課題4：ファイルパスの表示を「\」から「/」に変更
+            sub_file_path = document.metadata["source"].replace("\\", "/")
 
             # メインドキュメントのファイルパスと重複している場合、処理をスキップ（表示しない）
             if sub_file_path == main_file_path:
@@ -208,7 +212,8 @@ def display_search_llm_response(llm_response):
             # ページ番号が取得できない場合のための分岐処理
             if "page" in document.metadata:
                 # ページ番号を取得
-                sub_page_number = document.metadata["page"]
+                # 課題4：人間が読みやすいように+1
+                sub_page_number = document.metadata["page"] + 1
                 # 「サブドキュメントのファイルパス」と「ページ番号」の辞書を作成
                 sub_choice = {"source": sub_file_path, "page_number": sub_page_number}
             else:
@@ -231,7 +236,8 @@ def display_search_llm_response(llm_response):
                 # ページ番号が取得できない場合のための分岐処理
                 if "page_number" in sub_choice:
                     # 「サブドキュメントのファイルパス」と「ページ番号」を表示
-                    st.info(f"{sub_choice['source']}", icon=icon)
+                    # 課題4：ページ番号の表示
+                    st.info(f"{sub_choice['source']}(ページNo.{sub_choice['page_number']})", icon=icon)
                 else:
                     # 「サブドキュメントのファイルパス」を表示
                     st.info(f"{sub_choice['source']}", icon=icon)
@@ -301,7 +307,8 @@ def display_contact_llm_response(llm_response):
         # LLMが回答生成の参照元として使ったドキュメントの一覧が「context」内のリストの中に入っているため、ループ処理
         for document in llm_response["context"]:
             # ファイルパスを取得
-            file_path = document.metadata["source"]
+            # 課題4：ファイルパスの表示を「\」から「/」に変更
+            file_path = document.metadata["source"].replace("\\", "/")
             # ファイルパスの重複は除去
             if file_path in file_path_list:
                 continue
@@ -309,9 +316,11 @@ def display_contact_llm_response(llm_response):
             # ページ番号が取得できた場合のみ、ページ番号を表示（ドキュメントによっては取得できない場合がある）
             if "page" in document.metadata:
                 # ページ番号を取得
-                page_number = document.metadata["page"]
+                # 課題4：人間が読みやすいように+1
+                page_number = document.metadata["page"] + 1
                 # 「ファイルパス」と「ページ番号」
-                file_info = f"{file_path}"
+                # 課題4：ページ番号の表示
+                file_info = f"{file_path}(ページNo.{page_number})"
             else:
                 # 「ファイルパス」のみ
                 file_info = f"{file_path}"
