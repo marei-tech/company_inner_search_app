@@ -17,6 +17,8 @@ from langchain_community.document_loaders.csv_loader import CSVLoader
 # 画面表示系
 # ==========================================
 APP_NAME = "社内情報特化型生成AI検索アプリ"
+# (課題3)サイドバーのタイトル追加
+SIDEBAR_TITLE = "利用目的"
 ANSWER_MODE_1 = "社内文書検索"
 ANSWER_MODE_2 = "社内問い合わせ"
 CHAT_INPUT_HELPER_TEXT = "こちらからメッセージを送信してください。"
@@ -41,6 +43,7 @@ APP_BOOT_MESSAGE = "アプリが起動されました。"
 # ==========================================
 MODEL = "gpt-4o-mini"
 TEMPERATURE = 0.5
+# 課題2：マジックナンバーの定数化
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
 NUM_RETRIEVED_DOCS = 5

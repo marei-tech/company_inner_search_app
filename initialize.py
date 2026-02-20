@@ -122,6 +122,7 @@ def initialize_retriever():
     embeddings = OpenAIEmbeddings()
     
     # チャンク分割用のオブジェクトを作成
+    # 課題2：マジックナンバーの定数化
     text_splitter = CharacterTextSplitter(
         chunk_size=ct.CHUNK_SIZE,
         chunk_overlap=ct.CHUNK_OVERLAP,
@@ -135,6 +136,7 @@ def initialize_retriever():
     db = Chroma.from_documents(splitted_docs, embedding=embeddings)
 
     # ベクターストアを検索するRetrieverの作成
+    # 課題1、課題2：関連ドキュメントの取り出し数を変更、マジックナンバーの定数化
     st.session_state.retriever = db.as_retriever(search_kwargs={"k": ct.NUM_RETRIEVED_DOCS})
 
 

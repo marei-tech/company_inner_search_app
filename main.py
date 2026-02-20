@@ -26,7 +26,9 @@ import constants as ct
 ############################################################
 # ブラウザタブの表示文言を設定
 st.set_page_config(
-    page_title=ct.APP_NAME
+    page_title=ct.APP_NAME,
+    # 課題3：サイドバーを最初から展開させる
+    initial_sidebar_state="expanded"
 )
 
 # ログ出力を行うためのロガーの設定
@@ -60,7 +62,8 @@ if not "initialized" in st.session_state:
 cn.display_app_title()
 
 # モード表示
-cn.display_select_mode()
+# 課題3：サイドバー追加
+cn.display_sidebar()
 
 # AIメッセージの初期表示
 cn.display_initial_ai_message()
